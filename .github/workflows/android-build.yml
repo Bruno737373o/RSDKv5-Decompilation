@@ -1,18 +1,22 @@
-name: Build Android APK
+name: Build RSDKv5U Android TV
 
-on: [push, pull_request, workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Set up JDK 17
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libogg-dev libvorbis-dev libtheora-dev
+
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -21,18 +25,16 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install NDK
-        run: sdkmanager "ndk;25.2.9519653" # Versão comum, ajuste se necessário
-
-      - name: Build with Gradle
+      - name: Build APK
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease
-        working-directory: ./android # Certifique-ce que a pasta do projeto Android está aqui
+          # Compila para 32 e 64 bits para garantir compatibilidade com qualquer TV
+          ./gradlew assembleRelease -Pandroid.injected.build.abi="armeabi-v7a,arm64-v8a"
+        working-directory: ./android
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: RSDKv5-Android-APK
+          name: Sonic-Origins-AndroidTV
           path: android/app/build/outputs/apk/release/*.apk
           
