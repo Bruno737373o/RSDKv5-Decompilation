@@ -154,6 +154,7 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           accept-android-sdk-licenses: true
+          packages: 'platform-tools'
       - name: Accept All SDK Licenses (Fallback)
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
