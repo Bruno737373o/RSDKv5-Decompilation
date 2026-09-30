@@ -12,7 +12,7 @@ set(RETRO_MOD_LOADER_VER 2 CACHE STRING "Sets the mod loader version. Defaults t
 
 option(RETRO_DISABLE_LOG "Disables the log. Defaults to OFF." OFF)
 
-set(RETRO_NAME "RSDKv5")
+set(RETRO_NAME "RSDKv5U")
 
 if(RETRO_REVISION STREQUAL "3")
     set(RETRO_NAME "RSDKv5U")
